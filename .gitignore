@@ -1,0 +1,38 @@
+# Build Folders
+bin/
+obj/
+
+# Visual Studio files
+.vs/
+*.user
+*.suo
+*.userprefs
+
+# Rider
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# NuGet
+*.nupkg
+
+# dotnet
+project.lock.json
+
+# Coverage
+coverage*/
+
+# JetBrains Rider
+.idea/
+
+# Backup and temp
+*~
+*.tmp
+
+# Visual Studio Code
+.vscode/
