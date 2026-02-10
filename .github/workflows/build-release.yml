@@ -42,21 +42,33 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Download Windows artifact
         uses: actions/download-artifact@v4
         with:
           name: BackupManager-win-x64
-          path: ./artifacts
+          path: ./artifacts/win-x64
 
       - name: Download Linux artifact
         uses: actions/download-artifact@v4
         with:
           name: BackupManager-linux-x64
-          path: ./artifacts
+          path: ./artifacts/linux-x64
 
-      - name: Create Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: ./artifacts/**
+      - name: Create Release and Upload Assets
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Create release
+          gh release create ${{ github.ref_name }} \
+            --title "Release ${{ github.ref_name }}" \
+            --notes "Automated multi-platform release with Windows and Linux binaries" \
+            || true
+          
+          # Upload files
+          gh release upload ${{ github.ref_name }} \
+            artifacts/win-x64/* \
+            artifacts/linux-x64/* \
+            --clobber
